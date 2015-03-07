@@ -23,12 +23,12 @@ import java.util.Calendar;
  *
  * @author lattanze
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class OrderFrame extends javax.swing.JFrame {
 
     String versionID = "v2.10.10";
 
     /** Creates new form NewJFrame */
-    public NewJFrame() {
+    public OrderFrame() {
         initComponents();
         jLabel1.setText("Order Management Application " + versionID);
     }
@@ -883,7 +883,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new OrderFrame().setVisible(true);
             }
         });
     }

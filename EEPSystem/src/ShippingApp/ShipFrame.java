@@ -18,12 +18,12 @@ import java.sql.*;
  *
  * @author lattanze
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class ShipFrame extends javax.swing.JFrame {
     Integer updateOrderID;
     String versionID = "v2.10.10";
     
     /** Creates new form NewJFrame */
-    public NewJFrame() {
+    public ShipFrame() {
         initComponents();
         jLabel1.setText("Shipping Application " + versionID);
     }
@@ -781,7 +781,7 @@ public class NewJFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new ShipFrame().setVisible(true);
             }
         });
     }
