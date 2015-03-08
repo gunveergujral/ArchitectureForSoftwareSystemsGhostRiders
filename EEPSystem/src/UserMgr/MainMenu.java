@@ -8,6 +8,7 @@ package UserMgr;
 import InventoryMgr.InventoryMainFrame;
 import OrderApp.OrderFrame;
 import ShippingApp.ShipFrame;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
         
@@ -21,12 +22,12 @@ public class MainMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     String userID;
-    String roles[];
+    ArrayList<String> roles;
     String activityID;
     public MainMenu() {
         initComponents();        
     }
-    public MainMenu(String userID, String roles[], String activityID) {
+    public MainMenu(String userID, ArrayList<String> roles, String activityID) {
         initComponents();
         this.userID = userID;
         this.roles = roles;
@@ -207,7 +208,9 @@ public class MainMenu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                String temp[] = {"INV_MAN","ORD_EMP"};
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add("INV_MAN");
+                temp.add("SHI_EMP");
                 new MainMenu("3",temp,"1").setVisible(true);
             }
         });
