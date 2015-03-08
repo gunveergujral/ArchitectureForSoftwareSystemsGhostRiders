@@ -68,8 +68,6 @@ public class MainMenu extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -101,10 +99,6 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jLabel11.setText("Database IP:");
-
-        jTextField1.setText("localhost");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,13 +113,8 @@ public class MainMenu extends javax.swing.JFrame {
                             .addComponent(jButton3))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 180, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton4))
+                        .addGap(0, 291, Short.MAX_VALUE)
+                        .addComponent(jButton4)
                         .addGap(20, 20, 20))))
         );
         layout.setVerticalGroup(
@@ -133,11 +122,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
-                .addGap(53, 53, 53)
+                .addGap(82, 82, 82)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
@@ -178,7 +163,7 @@ public class MainMenu extends javax.swing.JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 LogOut logout = new LogOut(userID, activityID);
-                if (jTextField1.getText() != null) {
+                if (databaseIP != null) {
                     try {
                         logout.updateUserActivities(databaseIP);
                     } catch (ClassNotFoundException ex) {
@@ -216,7 +201,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         LogOut logout = new LogOut(userID, activityID);
-        if (jTextField1.getText() != null) {
+        if (databaseIP != null) {
             try {
                 logout.updateUserActivities(databaseIP);
                 this.dispose();
@@ -269,7 +254,5 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
