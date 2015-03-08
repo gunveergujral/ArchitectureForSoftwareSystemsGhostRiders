@@ -33,12 +33,14 @@ public class OrderFrame extends javax.swing.JFrame {
     String versionID = "v2.10.10";
     int userID;
     int activityID;
+    String databaseIP;
     /** Creates new form NewJFrame */
-    public OrderFrame(int userID, int activityID) {
+    public OrderFrame(int userID, int activityID, String databaseIP) {
         initComponents();
         jLabel1.setText("Order Management Application " + versionID);
         this.userID = userID;
         this.activityID = activityID;
+        this.databaseIP = databaseIP;
     }
 
     /** This method is called from within the constructor to
@@ -75,8 +77,6 @@ public class OrderFrame extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea3 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
@@ -172,10 +172,6 @@ public class OrderFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Customer Information");
 
-        jLabel11.setText("Database IP:");
-
-        jTextField1.setText("localhost");
-
         jLabel12.setText("Address");
 
         jTextArea4.setColumns(20);
@@ -207,7 +203,7 @@ public class OrderFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,39 +214,36 @@ public class OrderFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jScrollPane1)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel4)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jButton1)
-                                                        .addGap(161, 161, 161)
-                                                        .addComponent(jButton2)))
-                                                .addGap(166, 166, 166)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jButton3)
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                                                        .addComponent(jLabel11))))
-                                            .addComponent(jScrollPane2)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addComponent(jLabel2)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(jScrollPane3))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel4)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jButton1)
+                                                    .addGap(161, 161, 161)
+                                                    .addComponent(jButton2)))
+                                            .addGap(166, 166, 166)
+                                            .addComponent(jButton3)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGap(10, 10, 10)
+                                            .addComponent(jLabel2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jScrollPane1)
+                                                .addComponent(jScrollPane2)
+                                                .addComponent(jScrollPane3))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(9, 9, 9)
                                         .addComponent(jLabel5)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jTextField6))
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(3, 3, 3)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField6)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel13)
@@ -268,11 +261,8 @@ public class OrderFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jButton6))
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
+                .addGap(19, 19, 19)
+                .addComponent(jLabel4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
@@ -321,7 +311,7 @@ public class OrderFrame extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addContainerGap(145, Short.MAX_VALUE))
         );
 
         pack();
@@ -356,7 +346,7 @@ public class OrderFrame extends javax.swing.JFrame {
             jTextArea1.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -544,7 +534,7 @@ public class OrderFrame extends javax.swing.JFrame {
                 jTextArea3.append("\n"+msgString);
 
                 //define the data source
-                String SQLServerIP = jTextField1.getText();
+                String SQLServerIP = databaseIP;
                 String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
 
                 msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -763,7 +753,7 @@ public class OrderFrame extends javax.swing.JFrame {
             jTextArea1.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -841,7 +831,7 @@ public class OrderFrame extends javax.swing.JFrame {
             jTextArea1.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -900,9 +890,9 @@ public class OrderFrame extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         LogOut logout = new LogOut(userID,activityID);
-        if(jTextField1.getText()!=null){
+        if(databaseIP !=null){
             try {
-                logout.updateUserActivities(jTextField1.getText());
+                logout.updateUserActivities(databaseIP);
                 JOptionPane.showMessageDialog(this,"Log Out Successful,BYE !"); 
                 this.dispose();
             } catch (ClassNotFoundException ex) {
@@ -918,7 +908,7 @@ public class OrderFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderFrame(2,1).setVisible(true);
+                new OrderFrame(2,1,"localhost").setVisible(true);
             }
         });
     }
@@ -932,7 +922,6 @@ public class OrderFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -951,7 +940,6 @@ public class OrderFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;

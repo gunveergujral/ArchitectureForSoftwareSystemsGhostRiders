@@ -27,12 +27,15 @@ public class ShipFrame extends javax.swing.JFrame {
     String versionID = "v2.10.10";
     int userID;
     int activityID;
+    String databaseIP;
+    
     /** Creates new form NewJFrame */
-    public ShipFrame(int userID, int activityID) {
+    public ShipFrame(int userID, int activityID, String databaseIP) {
         initComponents();
         jLabel1.setText("Shipping Application " + versionID);
         this.userID = userID;
         this.activityID = activityID;
+        this.databaseIP = databaseIP;
     }
 
     /** This method is called from within the constructor to
@@ -47,8 +50,6 @@ public class ShipFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -82,10 +83,6 @@ public class ShipFrame extends javax.swing.JFrame {
         jTextArea1.setEditable(false);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
-
-        jLabel3.setText("Server IP Address:");
-
-        jTextField1.setText("localhost");
 
         jTextField2.setEditable(false);
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
@@ -203,9 +200,6 @@ public class ShipFrame extends javax.swing.JFrame {
                                 .addGap(149, 149, 149)
                                 .addComponent(jButton5))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 715, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -213,14 +207,6 @@ public class ShipFrame extends javax.swing.JFrame {
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(187, 187, 187)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,7 +224,14 @@ public class ShipFrame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 351, Short.MAX_VALUE))
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE))))
+                                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(45, 45, 45))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,10 +249,7 @@ public class ShipFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                .addComponent(jButton2)
                 .addGap(8, 8, 8)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
@@ -382,7 +372,7 @@ public class ShipFrame extends javax.swing.JFrame {
                 jTextArea4.append("\n"+msgString);
 
                 //define the data source
-                String SQLServerIP = jTextField1.getText();
+                String SQLServerIP = databaseIP;
                 String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
 
                 msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -489,7 +479,7 @@ public class ShipFrame extends javax.swing.JFrame {
             jTextArea4.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -578,9 +568,9 @@ public class ShipFrame extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         LogOut logout = new LogOut(userID,activityID);
-        if(jTextField1.getText()!=null){
+        if(databaseIP!=null){
             try {
-                logout.updateUserActivities(jTextField1.getText());
+                logout.updateUserActivities(databaseIP);
                 JOptionPane.showMessageDialog(this,"Log Out Successful,BYE !"); 
                 this.dispose();
             } catch (ClassNotFoundException ex) {
@@ -627,7 +617,7 @@ public class ShipFrame extends javax.swing.JFrame {
             jTextArea4.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -734,7 +724,7 @@ public class ShipFrame extends javax.swing.JFrame {
             jTextArea4.append("\n"+msgString);
 
             //define the data source
-            String SQLServerIP = jTextField1.getText();
+            String SQLServerIP = databaseIP;
             String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
 
             msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -813,7 +803,7 @@ public class ShipFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ShipFrame(1, 1).setVisible(true);
+                new ShipFrame(1,1,"localhost").setVisible(true);
             }
         });
     }
@@ -828,7 +818,6 @@ public class ShipFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -843,7 +832,6 @@ public class ShipFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextArea jTextArea4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

@@ -36,12 +36,14 @@ public class InventoryMainFrame extends javax.swing.JFrame {
        String versionID = "v2.10.10";
        int userID;
        int activityID;
+       String databaseIP;
     /** Creates new form AddInventoryMainFrame */
-    public InventoryMainFrame(int userID, int activityID) {
+    public InventoryMainFrame(int userID, int activityID, String databaseIP) {
         initComponents();
         jLabel1.setText("Inventory Management Application " + versionID);
         this.userID = userID;
         this.activityID = activityID;
+        this.databaseIP = databaseIP;
     }
 
     /** This method is called from within the constructor to
@@ -60,7 +62,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
@@ -69,7 +70,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -114,8 +114,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Quantity");
 
-        jTextField1.setText("localhost");
-
         jButton1.setText("Add Item");
         jButton1.setActionCommand("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -129,8 +127,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea1);
 
         jLabel5.setText("Product Description");
-
-        jLabel6.setText("Database Server IP");
 
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,12 +248,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 98, Short.MAX_VALUE))))
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(17, 17, 17)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(324, 324, 324)
@@ -273,16 +264,10 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(34, 34, 34))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -441,7 +426,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                 jTextArea1.append("\n"+msgString);
 
                 //define the data source
-                String SQLServerIP = jTextField1.getText();
+                String SQLServerIP = databaseIP;
                 //String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                 if(jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected())
                 {
@@ -638,7 +623,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                 jTextArea1.append("\n"+msgString);
 
                 //define the data source
-                String SQLServerIP = jTextField1.getText();
+                String SQLServerIP = databaseIP;
                 //String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                  if(jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected())
                 {
@@ -807,7 +792,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                     Class.forName( "com.mysql.jdbc.Driver" );
 
                     //define the data source
-                    String SQLServerIP = jTextField1.getText();
+                    String SQLServerIP = databaseIP;
                    // String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                     if(jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected())
                 {
@@ -977,7 +962,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                     Class.forName( "com.mysql.jdbc.Driver" );
 
                     //define the data source
-                    String SQLServerIP = jTextField1.getText();
+                    String SQLServerIP = databaseIP;
                     if(jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected())
                 {
                     String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
@@ -1155,9 +1140,9 @@ public class InventoryMainFrame extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         LogOut logout = new LogOut(userID,activityID);
-        if(jTextField1.getText()!=null){
+        if(databaseIP!=null){
             try {
-                logout.updateUserActivities(jTextField1.getText());
+                logout.updateUserActivities(databaseIP);
                 JOptionPane.showMessageDialog(this,"Log Out Successful,BYE !"); 
                 this.dispose();
             } catch (ClassNotFoundException ex) {
@@ -1172,7 +1157,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InventoryMainFrame(2,1).setVisible(true);
+                new InventoryMainFrame(2,1,"localhost").setVisible(true);
             }
         });
     }
@@ -1188,7 +1173,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JRadioButton jRadioButton1;
@@ -1201,7 +1185,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;

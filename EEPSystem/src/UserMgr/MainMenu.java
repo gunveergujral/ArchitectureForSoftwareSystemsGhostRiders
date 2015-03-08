@@ -25,16 +25,18 @@ public class MainMenu extends javax.swing.JFrame {
     int userID;
     ArrayList<String> roles;
     int activityID;
+    String databaseIP;
 
     public MainMenu() {
         initComponents();
     }
 
-    public MainMenu(int userID, ArrayList<String> roles, int activityID) {
+    public MainMenu(int userID, ArrayList<String> roles, int activityID, String databaseIP) {
         initComponents();
         this.userID = userID;
         this.roles = roles;
         this.activityID = activityID;
+        this.databaseIP = databaseIP;
 
         jButton1.setEnabled(false);
         jButton2.setEnabled(false);
@@ -149,15 +151,15 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        InventoryMainFrame inventoryMainFrame = new InventoryMainFrame(userID, activityID);
+        InventoryMainFrame inventoryMainFrame = new InventoryMainFrame(userID, activityID,databaseIP);
         inventoryMainFrame.setVisible(true);
         inventoryMainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 LogOut logout = new LogOut(userID, activityID);
-                if (jTextField1.getText() != null) {
+                if (databaseIP != null) {
                     try {
-                        logout.updateUserActivities(jTextField1.getText());
+                        logout.updateUserActivities(databaseIP);
                         //        this.dispose();
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,7 +172,7 @@ public class MainMenu extends javax.swing.JFrame {
     }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        OrderFrame orderFrame = new OrderFrame(userID, activityID);
+        OrderFrame orderFrame = new OrderFrame(userID, activityID,databaseIP);
         orderFrame.setVisible(true);
         orderFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -178,7 +180,7 @@ public class MainMenu extends javax.swing.JFrame {
                 LogOut logout = new LogOut(userID, activityID);
                 if (jTextField1.getText() != null) {
                     try {
-                        logout.updateUserActivities(jTextField1.getText());
+                        logout.updateUserActivities(databaseIP);
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -191,15 +193,15 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        ShipFrame shipFrame = new ShipFrame(userID, activityID);
+        ShipFrame shipFrame = new ShipFrame(userID, activityID,databaseIP);
         shipFrame.setVisible(true);
         shipFrame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 LogOut logout = new LogOut(userID, activityID);
-                if (jTextField1.getText() != null) {
+                if (databaseIP != null) {
                     try {
-                        logout.updateUserActivities(jTextField1.getText());
+                        logout.updateUserActivities(databaseIP);
 
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -216,7 +218,7 @@ public class MainMenu extends javax.swing.JFrame {
         LogOut logout = new LogOut(userID, activityID);
         if (jTextField1.getText() != null) {
             try {
-                logout.updateUserActivities(jTextField1.getText());
+                logout.updateUserActivities(databaseIP);
                 this.dispose();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -257,7 +259,7 @@ public class MainMenu extends javax.swing.JFrame {
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add("INV_MAN");
                 temp.add("SHI_EMP");
-                new MainMenu(3, temp, 1).setVisible(true);
+                new MainMenu(3, temp, 1,"localhost").setVisible(true);
             }
         });
     }
