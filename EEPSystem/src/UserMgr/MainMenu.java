@@ -146,7 +146,7 @@ public class MainMenu extends javax.swing.JFrame {
         InventoryMainFrame inventoryMainFrame = new InventoryMainFrame(userID,activityID);
         inventoryMainFrame.setVisible(true);
 //        this.setVisible(false);
-        this.dispose();
+        this.dispose();        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

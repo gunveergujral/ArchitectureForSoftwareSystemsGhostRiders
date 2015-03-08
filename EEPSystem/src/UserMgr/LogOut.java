@@ -30,7 +30,6 @@ public class LogOut {
    }
    public void updateUserActivities(String SQLServerIP) throws ClassNotFoundException{
        try {
-           System.out.println("Update the user activity here");
            Class.forName( "com.mysql.jdbc.Driver" );
            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/usermanagement";
            DBConn = DriverManager.getConnection(sourceURL,"remote","remote_pass");
@@ -39,12 +38,11 @@ public class LogOut {
            s = DBConn.createStatement();
 
            SQLstatement = ("UPDATE user_activities set logout_time='"+formattedTimeStamp+"' where user_activity_id = '" + activityID + "';");
-           System.out.println(SQLstatement);
            executeUpdateVal = s.executeUpdate(SQLstatement);
-           System.out.println("LOGGED OUT");
 
        } catch (SQLException ex) {
            Logger.getLogger(LogOut.class.getName()).log(Level.SEVERE, null, ex);
        }
    }
+
 }
