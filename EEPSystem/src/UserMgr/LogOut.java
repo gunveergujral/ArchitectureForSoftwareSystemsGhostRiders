@@ -21,6 +21,7 @@ public class LogOut {
    String userID;
    String activityID;
    Connection DBConn = null;
+   int executeUpdateVal;           // Return value from execute indicating effected rows
    java.sql.Statement s = null;        // SQL statement pointer
    String SQLstatement = null;        // String for building SQL queries
    public LogOut(String userID, String activityID){
@@ -36,7 +37,12 @@ public class LogOut {
            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
            String formattedTimeStamp = formatter.format(new Date());
            s = DBConn.createStatement();
-           SQLstatement = ("UPDATE user_activities set logout_time="+formattedTimeStamp+"where user_activity_id = '" + activityID + "';");
+
+           SQLstatement = ("UPDATE user_activities set logout_time='"+formattedTimeStamp+"' where user_activity_id = '" + activityID + "';");
+           System.out.println(SQLstatement);
+           executeUpdateVal = s.executeUpdate(SQLstatement);
+           System.out.println("LOGGED OUT");
+
        } catch (SQLException ex) {
            Logger.getLogger(LogOut.class.getName()).log(Level.SEVERE, null, ex);
        }

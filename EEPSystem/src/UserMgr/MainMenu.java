@@ -175,7 +175,6 @@ public class MainMenu extends javax.swing.JFrame {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.print("LOGOUT ERROR in MainMenu");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
