@@ -11,6 +11,7 @@ import ShippingApp.ShipFrame;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
         
 /**
  *
@@ -145,24 +146,64 @@ public class MainMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         InventoryMainFrame inventoryMainFrame = new InventoryMainFrame(userID,activityID);
         inventoryMainFrame.setVisible(true);
-//        this.setVisible(false);
-        this.dispose();        
+        inventoryMainFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        LogOut logout = new LogOut(userID,activityID);
+        if(jTextField1.getText()!=null){
+            try {
+                logout.updateUserActivities(jTextField1.getText());
+        //        this.dispose();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            JOptionPane.showMessageDialog(inventoryMainFrame,"Log Out Successful,BYE !");            
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    });
+ this.dispose();
+    }
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         OrderFrame orderFrame = new OrderFrame(userID,activityID);
         orderFrame.setVisible(true);
-  //      this.setVisible(false);
-        this.dispose();
+        orderFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        LogOut logout = new LogOut(userID,activityID);
+        if(jTextField1.getText()!=null){
+            try {
+                logout.updateUserActivities(jTextField1.getText());
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            JOptionPane.showMessageDialog(orderFrame,"Log Out Successful,BYE !");            
+    }                                        
+    });
+ this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         ShipFrame shipFrame = new ShipFrame(userID,activityID);
         shipFrame.setVisible(true);
-//        this.setVisible(false);
-        this.dispose();
+        shipFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+        LogOut logout = new LogOut(userID,activityID);
+        if(jTextField1.getText()!=null){
+            try {
+                logout.updateUserActivities(jTextField1.getText());
+
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+            JOptionPane.showMessageDialog(shipFrame,"Log Out Successful,BYE !");            
+    }                                        
+    });
+this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
