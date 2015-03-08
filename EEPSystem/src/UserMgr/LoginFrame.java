@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -179,10 +180,15 @@ public class LoginFrame extends javax.swing.JFrame {
                 if (res.next()) {
                     userId = res.getInt(1);
                     userPassword = res.getString(3);
+                } else {
+                    JOptionPane.showMessageDialog(this, "The username is not existed");
+                    throw new Exception();
                 }
                 
                 if (!userPassword.equals(password)) {
                     //Password is incorrect.
+                    JOptionPane.showMessageDialog(this, "The password is incorrect");
+                    throw new Exception();
                 }
                 
                 res = s.executeQuery( "Select user_role_id from user_role_relation where user_id = " + userId);
@@ -190,8 +196,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 {
                     roles.add(res.getString(1));
                 }
-                
-                
+                                
                 SQLstatement = ( "INSERT INTO user_activities (user_id, login_time) VALUES ( " + userId + ", '" +
                          dateTimeStamp +"' );");
 
