@@ -5,6 +5,7 @@
  */
 package UserMgr;
 
+import ShippingApp.ShipFrame;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -23,6 +24,9 @@ import javax.swing.JOptionPane;
  * @author songxiong
  */
 public class LoginFrame extends javax.swing.JFrame {
+
+    int userId = 0;
+    int activityId = 0;
 
     /**
      * Creates new form LoginFrame
@@ -46,6 +50,8 @@ public class LoginFrame extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,6 +80,10 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setText("Database IP:");
+
+        jTextField3.setText("localhost");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -92,19 +102,29 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGap(44, 44, 44))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(59, 59, 59))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(59, 59, 59))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(100, 100, 100)
+                .addGap(107, 107, 107)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,7 +132,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(30, 30, 30))
         );
@@ -141,14 +161,14 @@ public class LoginFrame extends javax.swing.JFrame {
         int executeUpdateVal;           // Return value from execute indicating effected rows
         String msgString = null;            // String for displaying non-error messages
         ResultSet res = null;               // SQL query result set pointer
-        
-        if ((jTextField2.getText().length()>0) && (jTextField1.getText().length()>0)) {
+
+        if ((jTextField2.getText().length() > 0) && (jTextField1.getText().length() > 0)) {
             try {
                 //load JDBC driver class for MySQL
-                Class.forName( "com.mysql.jdbc.Driver" );
-                
+                Class.forName("com.mysql.jdbc.Driver");
+
                 String sourceURL = "jdbc:mysql://localhost:3306/usermanagement";
-                DBConn = DriverManager.getConnection(sourceURL,"remote","remote_pass");
+                DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
             } catch (ClassNotFoundException e) {
                 connectError = true;
             } catch (SQLException ex) {
@@ -158,25 +178,21 @@ public class LoginFrame extends javax.swing.JFrame {
         } else {
             connectError = true;
         }
-        
-        if (!connectError ) {
+
+        if (!connectError) {
             username = jTextField1.getText();
             password = jTextField2.getText();
-            
-            int userId = 0;
-            int activityId = 0;
-            String userRole = null; 
+
             String userPassword = null;
             ArrayList<String> roles = new ArrayList<String>();
-            
+
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             String dateTimeStamp = formatter.format(new Date());
-                        
-            try
-            {
+
+            try {
                 s = DBConn.createStatement();
 
-                res = s.executeQuery( "Select * from user_account where username = '" + username + "'");
+                res = s.executeQuery("Select * from user_account where username = '" + username + "'");
                 if (res.next()) {
                     userId = res.getInt(1);
                     userPassword = res.getString(3);
@@ -184,33 +200,46 @@ public class LoginFrame extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "The username is not existed");
                     throw new Exception();
                 }
-                
+
                 if (!userPassword.equals(password)) {
                     //Password is incorrect.
                     JOptionPane.showMessageDialog(this, "The password is incorrect");
                     throw new Exception();
                 }
-                
-                res = s.executeQuery( "Select user_role_id from user_role_relation where user_id = " + userId);
-                while (res.next())
-                {
+
+                res = s.executeQuery("Select user_role_id from user_role_relation where user_id = " + userId);
+                while (res.next()) {
                     roles.add(res.getString(1));
                 }
-                                
-                SQLstatement = ( "INSERT INTO user_activities (user_id, login_time) VALUES ( " + userId + ", '" +
-                         dateTimeStamp +"' );");
+
+                SQLstatement = ("INSERT INTO user_activities (user_id, login_time) VALUES ( " + userId + ", '"
+                        + dateTimeStamp + "' );");
 
                 executeUpdateVal = s.executeUpdate(SQLstatement);
-                
-                res = s.executeQuery( "SELECT LAST_INSERT_ID()");
+
+                res = s.executeQuery("SELECT LAST_INSERT_ID()");
                 if (res.next()) {
                     activityId = res.getInt(1);
                 }
-                
-                MainMenu mainMenu = new MainMenu(userId, roles, activityId);
+
+                MainMenu mainMenu = new MainMenu(userId, roles, activityId, jTextField3.getText());
                 mainMenu.setVisible(true);
+                mainMenu.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        LogOut logout = new LogOut(userId, activityId);
+                        if (jTextField1.getText() != null) {
+                            try {
+                                logout.updateUserActivities(jTextField3.getText());               
+                            } catch (ClassNotFoundException ex) {
+                                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        JOptionPane.showMessageDialog(mainMenu, "Log Out Successful,BYE !");
+                    }
+                });
+
                 this.dispose();
-                
             } catch (Exception e) {
 
                 executeError = true;
@@ -257,9 +286,11 @@ public class LoginFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
 }
