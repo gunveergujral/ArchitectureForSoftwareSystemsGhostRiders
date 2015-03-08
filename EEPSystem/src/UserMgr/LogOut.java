@@ -34,7 +34,7 @@ public class LogOut {
            Class.forName( "com.mysql.jdbc.Driver" );
            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/usermanagement";
            DBConn = DriverManager.getConnection(sourceURL,"remote","remote_pass");
-           SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+           SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
            String formattedTimeStamp = formatter.format(new Date());
            s = DBConn.createStatement();
 
