@@ -3,8 +3,12 @@ package OrderApp;
 
 
 
+import ShippingApp.ShipFrame;
+import UserMgr.LogOut;
 import java.sql.*;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /******************************************************************************
 * File:NewJFrame.java
@@ -26,11 +30,14 @@ import java.util.Calendar;
 public class OrderFrame extends javax.swing.JFrame {
 
     String versionID = "v2.10.10";
-
+    String userID;
+    String activityID;
     /** Creates new form NewJFrame */
-    public OrderFrame() {
+    public OrderFrame(String userID, String activityID) {
         initComponents();
         jLabel1.setText("Order Management Application " + versionID);
+        this.userID = userID;
+        this.activityID = activityID;
     }
 
     /** This method is called from within the constructor to
@@ -73,6 +80,7 @@ public class OrderFrame extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextArea4 = new javax.swing.JTextArea();
         jLabel13 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -175,6 +183,13 @@ public class OrderFrame extends javax.swing.JFrame {
 
         jLabel13.setText("SELECT ENTIRE INVENTORY LINE TO ADD ITEM TO ORDER (TRIPLE CLICK)");
 
+        jButton6.setText("Log Out");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,7 +198,9 @@ public class OrderFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(316, 316, 316)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton6))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -247,8 +264,10 @@ public class OrderFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton6))
+                .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -877,13 +896,28 @@ public class OrderFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        LogOut logout = new LogOut(userID,activityID);
+        if(jTextField1.getText()!=null){
+            try {
+                logout.updateUserActivities(jTextField1.getText());
+                this.dispose();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.print("LOGOUT ERROR in OrderFrame");
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
     * @param args the command line arguments
     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderFrame().setVisible(true);
+                new OrderFrame("2","INV_MAN").setVisible(true);
             }
         });
     }
@@ -894,6 +928,7 @@ public class OrderFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

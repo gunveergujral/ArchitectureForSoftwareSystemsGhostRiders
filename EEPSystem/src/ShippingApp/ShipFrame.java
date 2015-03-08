@@ -1,5 +1,8 @@
-
+package ShippingApp;
+import UserMgr.LogOut;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
  /******************************************************************************
  * File:NewJFrame.java
@@ -21,11 +24,14 @@ import java.sql.*;
 public class ShipFrame extends javax.swing.JFrame {
     Integer updateOrderID;
     String versionID = "v2.10.10";
-    
+    String userID;
+    String activityID;
     /** Creates new form NewJFrame */
-    public ShipFrame() {
+    public ShipFrame(String userID, String activityID) {
         initComponents();
         jLabel1.setText("Shipping Application " + versionID);
+        this.userID = userID;
+        this.activityID = activityID;
     }
 
     /** This method is called from within the constructor to
@@ -65,6 +71,7 @@ public class ShipFrame extends javax.swing.JFrame {
         jTextArea4 = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -171,6 +178,13 @@ public class ShipFrame extends javax.swing.JFrame {
             }
         });
 
+        jButton5.setText("Log Out");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -183,9 +197,10 @@ public class ShipFrame extends javax.swing.JFrame {
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 894, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 551, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 553, Short.MAX_VALUE)
                                 .addComponent(jLabel1)
-                                .addGap(228, 228, 228))
+                                .addGap(149, 149, 149)
+                                .addComponent(jButton5))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(0, 0, Short.MAX_VALUE))
@@ -236,7 +251,9 @@ public class ShipFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -557,6 +574,20 @@ public class ShipFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        LogOut logout = new LogOut(userID,activityID);
+        if(jTextField1.getText()!=null){
+            try {
+                logout.updateUserActivities(jTextField1.getText());
+                this.dispose();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.print("LOGOUT ERROR in ShipFrame");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void getPendingOrders() {
 
         // This method is responsible for querying the orders database and
@@ -781,7 +812,7 @@ public class ShipFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ShipFrame().setVisible(true);
+                new ShipFrame("2", "INV_MAN").setVisible(true);
             }
         });
     }
@@ -791,6 +822,7 @@ public class ShipFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
