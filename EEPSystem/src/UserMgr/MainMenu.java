@@ -21,13 +21,13 @@ public class MainMenu extends javax.swing.JFrame {
     /**
      * Creates new form MainMenu
      */
-    String userID;
+    int userID;
     ArrayList<String> roles;
-    String activityID;
+    int activityID;
     public MainMenu() {
         initComponents();        
     }
-    public MainMenu(String userID, ArrayList<String> roles, String activityID) {
+    public MainMenu(int userID, ArrayList<String> roles, int activityID) {
         initComponents();
         this.userID = userID;
         this.roles = roles;
@@ -211,7 +211,7 @@ public class MainMenu extends javax.swing.JFrame {
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add("INV_MAN");
                 temp.add("SHI_EMP");
-                new MainMenu("3",temp,"1").setVisible(true);
+                new MainMenu(3,temp,1).setVisible(true);
             }
         });
     }

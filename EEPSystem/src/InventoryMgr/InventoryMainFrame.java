@@ -33,10 +33,10 @@ import java.util.logging.Logger;
 public class InventoryMainFrame extends javax.swing.JFrame {
 
        String versionID = "v2.10.10";
-       String userID;
-       String activityID;
+       int userID;
+       int activityID;
     /** Creates new form AddInventoryMainFrame */
-    public InventoryMainFrame(String userID, String activityID) {
+    public InventoryMainFrame(int userID, int activityID) {
         initComponents();
         jLabel1.setText("Inventory Management Application " + versionID);
         this.userID = userID;
@@ -1162,7 +1162,6 @@ public class InventoryMainFrame extends javax.swing.JFrame {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.print("LOGOUT ERROR in InventoryManager Frame");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -1171,7 +1170,7 @@ public class InventoryMainFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InventoryMainFrame("2","INV_MGR").setVisible(true);
+                new InventoryMainFrame(2,1).setVisible(true);
             }
         });
     }

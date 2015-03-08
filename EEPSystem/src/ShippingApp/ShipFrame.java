@@ -24,10 +24,10 @@ import java.util.logging.Logger;
 public class ShipFrame extends javax.swing.JFrame {
     Integer updateOrderID;
     String versionID = "v2.10.10";
-    String userID;
-    String activityID;
+    int userID;
+    int activityID;
     /** Creates new form NewJFrame */
-    public ShipFrame(String userID, String activityID) {
+    public ShipFrame(int userID, int activityID) {
         initComponents();
         jLabel1.setText("Shipping Application " + versionID);
         this.userID = userID;
@@ -585,7 +585,6 @@ public class ShipFrame extends javax.swing.JFrame {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        System.out.print("LOGOUT ERROR in ShipFrame");
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void getPendingOrders() {
@@ -812,7 +811,7 @@ public class ShipFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ShipFrame("2", "INV_MAN").setVisible(true);
+                new ShipFrame(1, 1).setVisible(true);
             }
         });
     }

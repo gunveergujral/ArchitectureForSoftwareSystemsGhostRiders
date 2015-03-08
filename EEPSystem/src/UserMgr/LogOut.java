@@ -18,13 +18,13 @@ import java.util.logging.Logger;
  * @author Gunveer Gujral
  */
 public class LogOut {
-   String userID;
-   String activityID;
+   int userID;
+   int activityID;
    Connection DBConn = null;
    int executeUpdateVal;           // Return value from execute indicating effected rows
    java.sql.Statement s = null;        // SQL statement pointer
    String SQLstatement = null;        // String for building SQL queries
-   public LogOut(String userID, String activityID){
+   public LogOut(int userID, int activityID){
     this.userID = userID;
     this.activityID = activityID;
    }

@@ -30,10 +30,10 @@ import java.util.logging.Logger;
 public class OrderFrame extends javax.swing.JFrame {
 
     String versionID = "v2.10.10";
-    String userID;
-    String activityID;
+    int userID;
+    int activityID;
     /** Creates new form NewJFrame */
-    public OrderFrame(String userID, String activityID) {
+    public OrderFrame(int userID, int activityID) {
         initComponents();
         jLabel1.setText("Order Management Application " + versionID);
         this.userID = userID;
@@ -917,7 +917,7 @@ public class OrderFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderFrame("2","INV_MAN").setVisible(true);
+                new OrderFrame(2,1).setVisible(true);
             }
         });
     }
