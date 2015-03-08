@@ -3,6 +3,7 @@ import UserMgr.LogOut;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
  /******************************************************************************
  * File:NewJFrame.java
@@ -580,6 +581,7 @@ public class ShipFrame extends javax.swing.JFrame {
         if(jTextField1.getText()!=null){
             try {
                 logout.updateUserActivities(jTextField1.getText());
+                JOptionPane.showMessageDialog(this,"Log Out Successful,BYE !"); 
                 this.dispose();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
