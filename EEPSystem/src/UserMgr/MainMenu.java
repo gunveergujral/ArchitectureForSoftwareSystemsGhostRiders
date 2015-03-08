@@ -204,6 +204,7 @@ public class MainMenu extends javax.swing.JFrame {
         if (databaseIP != null) {
             try {
                 logout.updateUserActivities(databaseIP);
+                JOptionPane.showMessageDialog(this, "Log Out Successful,BYE !");
                 this.dispose();
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
