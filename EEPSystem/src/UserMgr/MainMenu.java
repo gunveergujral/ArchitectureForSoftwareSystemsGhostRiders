@@ -23,15 +23,8 @@ public class MainMenu extends javax.swing.JFrame {
      */
     ArrayList<String> roles;
 
-    public MainMenu(ArrayList<String> roles) {
-<<<<<<< Updated upstream
-=======
-        initComponents();
-        this.roles = roles;
-    }
 
-    public MainMenu(ArrayList<String> roles, String databaseIP) {
->>>>>>> Stashed changes
+    public MainMenu(ArrayList<String> roles) {
         initComponents();
         this.roles = roles;
 

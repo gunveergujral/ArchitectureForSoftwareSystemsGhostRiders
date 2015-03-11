@@ -13,7 +13,7 @@ public enum ProductType {
 
     SEEDS("inventory","seeds"), SHRUBS("inventory", "shrubs"), TREES("inventory", "trees"),
     CULTUREBOXES("leaftech", "cultureboxes"), GENOMICS("leaftech", "genomics"), 
-    PROCESSING("leaftech", "processing"), REFERENCEMATIRIALS("leaftech", "referencematerials");
+    PROCESSING("leaftech", "processing"), REFERENCEMATERIALS("leaftech", "referencematerials");
 
     private final String databaseName;
     private final String tableName;

@@ -35,14 +35,14 @@ public class OrdersDAO {
         
             
             try {
-                DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(),item.getDatabaseName());
-                s = DBConn.createStatement();
+                DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(),item.getDatabaseName());                
             } catch (Exception e) {
                 throw new ConnectionFailedException("\nProblem connecting to database");
             }
             
             try {
-                res = s.executeQuery("select * from" + item.getTableName());              
+                s = DBConn.createStatement();
+                res = s.executeQuery("select * from " + item.getTableName());              
                               
                 while (res.next()) {
                     msgString = res.getString(1) + " : " + res.getString(2)
