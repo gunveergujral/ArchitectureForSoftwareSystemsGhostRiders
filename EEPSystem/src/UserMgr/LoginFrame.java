@@ -6,13 +6,10 @@
 package UserMgr;
 
 import JavaBeans.UserAccount;
-import Utilities.LogOut;
-import ShippingApp.ShipFrame;
+import Utilities.UserSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -187,18 +184,17 @@ public class LoginFrame extends javax.swing.JFrame {
                 roles = u.getRoles();
                 activityId = activity.setLoginTime(userId, dateTimeStamp);
 
-                MainMenu mainMenu = new MainMenu(userId, roles, activityId, jTextField3.getText());
+                UserSession.setDatabaseIP(jTextField3.getText());
+                UserSession.setUserID(userId);
+                UserSession.setActivityID(activityId);
+                
+                MainMenu mainMenu = new MainMenu(roles);
                 mainMenu.setVisible(true);
                 mainMenu.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                        LogOut logout = new LogOut(userId, activityId);
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {                        
                         if (jTextField1.getText() != null) {
-                            try {
-                                logout.updateUserActivities(jTextField3.getText());               
-                            } catch (ClassNotFoundException ex) {
-                                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+                            UserSession.updateUserActivities();
                         }
                         JOptionPane.showMessageDialog(mainMenu, "Log Out Successful,BYE !");
                     }

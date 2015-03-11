@@ -1,7 +1,7 @@
 package OrderApp;
 
 import ShippingApp.ShipFrame;
-import Utilities.LogOut;
+import Utilities.UserSession;
 import java.sql.*;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -26,19 +26,13 @@ import javax.swing.JOptionPane;
 public class OrderFrame extends javax.swing.JFrame {
 
     String versionID = "v2.10.10";
-    int userID;
-    int activityID;
-    String databaseIP;
 
     /**
      * Creates new form NewJFrame
      */
-    public OrderFrame(int userID, int activityID, String databaseIP) {
+    public OrderFrame() {
         initComponents();
         jLabel1.setText("Order Management Application " + versionID);
-        this.userID = userID;
-        this.activityID = activityID;
-        this.databaseIP = databaseIP;;
     }
 
     /**
@@ -1183,15 +1177,11 @@ public class OrderFrame extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
 //GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        LogOut logout = new LogOut(userID, activityID);
         if (databaseIP != null) {
-            try {
-                logout.updateUserActivities(databaseIP);
-                JOptionPane.showMessageDialog(this, "Log Out Successful,BYE !");
-                this.dispose();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ShipFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            UserSession.updateUserActivities();
+            JOptionPane.showMessageDialog(this, "Log Out Successful,BYE !");
+            this.dispose();
+
         }
     }//GEN-LAST:event_jButton10ActionPerformed
 
@@ -1200,8 +1190,8 @@ public class OrderFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
-         * @param args the command line arguments
-         */
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -25,21 +25,19 @@ public class DBConnector {
      * @return Connector
      * @throws ConnectionFailedException
      */
-    public static Connection getConnection(String dbname) throws ConnectionFailedException {
+    public static Connection getConnection(String databaseIP, String dbname) throws ConnectionFailedException {
 
         Connection conn = null;
+
         try {
             //load JDBC driver class for MySQL
             Class.forName("com.mysql.jdbc.Driver");
-
-            String sourceURL = "jdbc:mysql://localhost:3306/" + dbname;
+            String sourceURL = "jdbc:mysql://" + databaseIP + "3306/" + dbname;
             conn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-        } catch (ClassNotFoundException e) {
-            throw new ConnectionFailedException("The driver is not existent.");
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-            throw new ConnectionFailedException("Connection getting failed.");
+        } catch (Exception ex) {
+            throw new ConnectionFailedException("Problem connecting to database.");
         }
+
         return conn;
     }
 

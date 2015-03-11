@@ -8,6 +8,7 @@ package UserMgr;
 import JavaBeans.UserAccount;
 import Utilities.ConnectionFailedException;
 import Utilities.DBConnector;
+import Utilities.UserSession;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ public class UserDAO {
         ResultSet res = null;               // SQL query result set pointer
         UserAccount user = null;
         try {
-            DBConn = DBConnector.getConnection("usermanagement");
+            DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(), "usermanagement");
             s = DBConn.createStatement();
             res = s.executeQuery("Select * from user_account where username = '" + username + "'");
                         

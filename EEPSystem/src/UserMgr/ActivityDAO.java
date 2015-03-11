@@ -5,10 +5,9 @@
  */
 package UserMgr;
 
-import JavaBeans.UserAccount;
-import JavaBeans.UserActivity;
 import Utilities.ConnectionFailedException;
 import Utilities.DBConnector;
+import Utilities.UserSession;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,7 +33,7 @@ public class ActivityDAO {
         
         int activityId = -1;
         try {
-            DBConn = DBConnector.getConnection("usermanagement");
+            DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(), "usermanagement");
             s = DBConn.createStatement();
             SQLstatement = ("INSERT INTO user_activities (user_id, login_time) VALUES ( " + userID + ", '"
                     + dateTimeStamp + "' );");
@@ -46,7 +45,7 @@ public class ActivityDAO {
                 activityId = res.getInt(1);
             }            
 
-        } catch (ConnectionFailedException ex) {
+        } catch (ConnectionFailedException ex) {            
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
