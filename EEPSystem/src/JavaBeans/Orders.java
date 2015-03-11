@@ -15,7 +15,7 @@ public class Orders {
     private String firstname;
     private String lastname;
     private String address;
-    private int phonenumber;
+    private String phonenumber;
     private float cost;
     private int shipped;
     private String orderTable;
@@ -93,14 +93,14 @@ public class Orders {
     /**
      * @return the phonenumber
      */
-    public int getPhonenumber() {
+    public String getPhonenumber() {
         return phonenumber;
     }
 
     /**
      * @param phonenumber the phonenumber to set
      */
-    public void setPhonenumber(int phonenumber) {
+    public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
 

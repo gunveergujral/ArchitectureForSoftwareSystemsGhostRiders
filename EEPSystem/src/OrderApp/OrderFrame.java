@@ -1,12 +1,17 @@
 package OrderApp;
 
-import ShippingApp.ShipFrame;
+
+import JavaBeans.Order;
+import JavaBeans.Orders;
+import JavaBeans.Product;
 import Utilities.ConnectionFailedException;
 import Utilities.ProductType;
 import Utilities.UserSession;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -491,156 +496,39 @@ public class OrderFrame extends javax.swing.JFrame {
         String description;             // Tree, seed, or shrub description
         Boolean executeError = false;   // Error flag
         String errString = null;        // String for displaying errors
-        int executeUpdateVal;           // Return value from execute indicating effected rows
-        int executeUpdateVal2;
         String lastName = null;         // Customer's last name
         String msgString = null;        // String for displaying non-error messages
-        String orderTableName = null;   // This is the name of the table that lists the items
+        
         String sTotalCost = null;       // String representing total order cost
         String sPerUnitCost = null;     // String representation of per unit cost
         String orderItem = null;        // Order line item from jTextArea2
         String phoneNumber = null;      // Customer phone number
         Float perUnitCost;              // Cost per tree, seed, or shrub unit
         String productID = null;        // Product id of tree, seed, or shrub
-        Statement s = null;             // SQL statement pointer
-        String SQLstatement = null;     // String for building SQL queries
+  
 
         // Check to make sure there is a first name, last name, address and phone
         if ((jTextField3.getText().length() > 0) && (jTextField4.getText().length() > 0)
                 && (jTextField5.getText().length() > 0)
                 && (jTextArea4.getText().length() > 0)) {
-            try {
-                msgString = ">> Establishing Driver...";
-                jTextArea3.setText("\n" + msgString);
+            
+                // Get the order data
+                firstName = jTextField3.getText();
+                lastName = jTextField4.getText();
+                phoneNumber = jTextField5.getText();
+                customerAddress = jTextArea4.getText();
+                sTotalCost = jTextField6.getText();
+                beginIndex = 0;
+                beginIndex = sTotalCost.indexOf("$", beginIndex) + 1;
+                sTotalCost = sTotalCost.substring(beginIndex, sTotalCost.length());
+                fCost = Float.parseFloat(sTotalCost);
+            
+                String[] items = jTextArea2.getText().split("\\n");
 
-                //load JDBC driver class for MySQL
-                Class.forName("com.mysql.jdbc.Driver");
-
-                msgString = ">> Setting up URL...";
-                jTextArea3.append("\n" + msgString);
-
-                //define the data source
-                String SQLServerIP = databaseIP;
-                String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/orderinfo";
-
-                msgString = ">> Establishing connection with: " + sourceURL + "...";
-                jTextArea3.append("\n" + msgString);
-
-                //create a connection to the db - note the default account is "remote"
-                //and the password is "remote_pass" - you will have to set this
-                //account up in your database
-                DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-            } catch (Exception e) {
-
-                errString = "\nError connecting to orderinfo database\n" + e;
-                jTextArea3.append(errString);
-                connectError = true;
-
-            } // end try-catch
-
-        } else {
-
-            errString = "\nMissing customer information!!!\n";
-            jTextArea3.append(errString);
-            connectError = true;
-
-        }// customer data check
-
-        //If there is not a connection error, then we form the SQL statement
-        //to submit the order to the orders table and then execute it.
-        if (!connectError) {
-            Calendar rightNow = Calendar.getInstance();
-
-            int TheHour = rightNow.get(rightNow.HOUR_OF_DAY);
-            int TheMinute = rightNow.get(rightNow.MINUTE);
-            int TheSecond = rightNow.get(rightNow.SECOND);
-            int TheDay = rightNow.get(rightNow.DAY_OF_WEEK);
-            int TheMonth = rightNow.get(rightNow.MONTH);
-            int TheYear = rightNow.get(rightNow.YEAR);
-            orderTableName = "order" + String.valueOf(rightNow.getTimeInMillis());
-
-            String dateTimeStamp = TheMonth + "/" + TheDay + "/" + TheYear + " "
-                    + TheHour + ":" + TheMinute + ":" + TheSecond;
-
-            // Get the order data
-            firstName = jTextField3.getText();
-            lastName = jTextField4.getText();
-            phoneNumber = jTextField5.getText();
-            customerAddress = jTextArea4.getText();
-            sTotalCost = jTextField6.getText();
-            beginIndex = 0;
-            beginIndex = sTotalCost.indexOf("$", beginIndex) + 1;
-            sTotalCost = sTotalCost.substring(beginIndex, sTotalCost.length());
-            fCost = Float.parseFloat(sTotalCost);
-
-            try {
-                s = DBConn.createStatement();
-
-                SQLstatement = ("CREATE TABLE " + orderTableName
-                        + "(item_id int unsigned not null auto_increment primary key, "
-                        + "product_id varchar(20), description varchar(80), "
-                        + "item_price float(7,2) );");
-
-                executeUpdateVal = s.executeUpdate(SQLstatement);
-
-            } catch (Exception e) {
-
-                errString = "\nProblem creating order table " + orderTableName + ":: " + e;
-                jTextArea3.append(errString);
-                executeError = true;
-
-            } // try
-
-            if (!executeError) {
-                try {
-                    SQLstatement = ("INSERT INTO orders (order_date, " + "first_name, "
-                            + "last_name, address, phone, total_cost, shipped, "
-                            + "ordertable) VALUES ( '" + dateTimeStamp + "', "
-                            + "'" + firstName + "', " + "'" + lastName + "', "
-                            + "'" + customerAddress + "', " + "'" + phoneNumber + "', "
-                            + fCost + ", " + false + ", '" + orderTableName + "' );");
-
-                    executeUpdateVal = s.executeUpdate(SQLstatement);
-
-                } catch (Exception e1) {
-
-                    errString = "\nProblem with inserting into table orders:: " + e1;
-                    jTextArea3.append(errString);
-                    executeError = true;
-
-                    try {
-                        SQLstatement = ("DROP TABLE " + orderTableName + ";");
-                        executeUpdateVal = s.executeUpdate(SQLstatement);
-
-                    } catch (Exception e2) {
-
-                        errString = "\nProblem deleting unused order table:: "
-                                + orderTableName + ":: " + e2;
-                        jTextArea3.append(errString);
-
-                    } // try
-
-                } // try
-
-            } //execute error check
-
-        }
-
-        // Now, if there is no connect or SQL execution errors at this point, 
-        // then we have an order added to the orderinfo::orders table, and a 
-        // new ordersXXXX table created. Here we insert the list of items in
-        // jTextArea2 into the ordersXXXX table.
-        if (!connectError && !executeError) {
-            // Now we create a table that contains the itemized list
-            // of stuff that is associated with the order
-
-            String[] items = jTextArea2.getText().split("\\n");
-
-            for (int i = 0; i < items.length; i++) {
-                orderItem = items[i];
-                jTextArea3.append("\nitem #:" + i + ": " + items[i]);
-
+                for (int i = 0; i < items.length; i++) {
+                    orderItem = items[i];
+                    jTextArea3.append("\nitem #:" + i + ": " + items[i]);
+                
                 // Check just to make sure that a blank line was not stuck in
                 // there... just in case.
                 if (orderItem.length() > 0) {
@@ -661,14 +549,23 @@ public class OrderFrame extends javax.swing.JFrame {
                     sPerUnitCost = orderItem.substring(beginIndex, orderItem.length());
                     perUnitCost = Float.parseFloat(sPerUnitCost);
 
-                    SQLstatement = ("INSERT INTO " + orderTableName
-                            + " (product_id, description, item_price) "
-                            + "VALUES ( '" + productID + "', " + "'"
-                            + description + "', " + perUnitCost + " );");
-
+                    Order order = new Order();
+                        order.setProductId(productID);
+                        order.setDescription(description);
+                        order.setItemPrice(perUnitCost);
+          
+                    Orders orders = new Orders();
+                        orders.setFirstname(firstName);
+                        orders.setLastname(lastName);
+                        orders.setPhonenumber(phoneNumber);
+                        orders.setAddress(customerAddress);
+                        orders.setCost(fCost);
+                     
+                        OrdersDAO ordersDAO = new OrdersDAO();
                     try {
-                        executeUpdateVal = s.executeUpdate(SQLstatement);
-
+                            ordersDAO.submit(orders, order);
+                         
+                
                         msgString = "\nORDER SUBMITTED FOR: " + firstName + " " + lastName;
                         jTextArea3.setText(msgString);
 
@@ -680,21 +577,20 @@ public class OrderFrame extends javax.swing.JFrame {
                         jTextField4.setText("");
                         jTextField5.setText("");
                         jTextField6.setText("$0");
+                        } catch (ConnectionFailedException e) {
+                            jTextArea3.append(e.getMessage());
+                        } // end try-catch
+                      }
+                    }
+                       
+                    } else {
+                    
+                    errString = "\nMissing customer information!!!\n";
+                    jTextArea3.append(errString);
+                    connectError = true;
 
-                    } catch (Exception e) {
-
-                        errString = "\nProblem with inserting into table " + orderTableName
-                                + ":: " + e;
-                        jTextArea3.append(errString);
-
-                    } // try
-
-                } // line length check
-
-            } //for each line of text in order table
-
-        }
-
+                    }// customer data check
+  
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -734,7 +630,7 @@ public class OrderFrame extends javax.swing.JFrame {
          try {
                 OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory("inventory", "Select * from shrubs");
+                ArrayList<String> results = orders.getInventory(ProductType.SHRUBS);
                 
                 for(String result: results) {
                     jTextArea1.append(result + "\n");
@@ -762,7 +658,7 @@ public class OrderFrame extends javax.swing.JFrame {
          try {
                 OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory("leaftech", "Select * from genomics");
+                ArrayList<String> results = orders.getInventory(ProductType.GENOMICS);
                 
                 for(String result: results) {
                     jTextArea1.append(result + "\n");
@@ -787,7 +683,7 @@ public class OrderFrame extends javax.swing.JFrame {
          try {
                 OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory("leaftech", "Select * from cultureboxes");
+                ArrayList<String> results = orders.getInventory(ProductType.CULTUREBOXES);
                 
                 for(String result: results) {
                     jTextArea1.append(result + "\n");
@@ -810,7 +706,7 @@ public class OrderFrame extends javax.swing.JFrame {
          try {
                 OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory("leaftech", "Select * from processing");
+                ArrayList<String> results = orders.getInventory(ProductType.PROCESSING);
                 
                 for(String result: results) {
                     jTextArea1.append(result + "\n");
@@ -833,7 +729,7 @@ public class OrderFrame extends javax.swing.JFrame {
          try {
                 OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory("leaftech", "Select * from referencematerials");
+                ArrayList<String> results = orders.getInventory(ProductType.REFERENCEMATERIALS);
                 
                 for(String result: results) {
                     jTextArea1.append(result + "\n");
@@ -849,13 +745,9 @@ public class OrderFrame extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
 //GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-        if (databaseIP != null) {
-            UserSession.updateUserActivities();
-            JOptionPane.showMessageDialog(this, "Log Out Successful,BYE !");
-            this.dispose();
-
-        }
+        UserSession.updateUserActivities();
+        JOptionPane.showMessageDialog(this, "Log Out Successful,BYE !");
+        this.dispose();
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -868,7 +760,7 @@ public class OrderFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new OrderFrame(2, 1, "localhost").setVisible(true);
+                new OrderFrame().setVisible(true);
             }
         });
     }
