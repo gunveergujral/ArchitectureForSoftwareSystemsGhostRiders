@@ -25,6 +25,11 @@ public class DBConnector {
     public static Connection getConnection(String databaseIP, String dbname) throws Exception {
 
         Connection conn = null;
+<<<<<<< Updated upstream
+=======
+
+        //load JDBC driver class for MySQL
+>>>>>>> Stashed changes
         Class.forName("com.mysql.jdbc.Driver");
         String sourceURL = "jdbc:mysql://" + databaseIP + ":3306/" + dbname;
         conn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");

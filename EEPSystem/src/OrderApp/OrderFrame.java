@@ -1,8 +1,11 @@
 package OrderApp;
 
 import ShippingApp.ShipFrame;
+import Utilities.ConnectionFailedException;
+import Utilities.ProductType;
 import Utilities.UserSession;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -370,69 +373,25 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
         // Database parameters
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //Load J Connector for MySQL - explicit loads are not needed for 
-            //connectors that are version 4 and better
-            //Class.forName( "com.mysql.jdbc.Driver" );
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
         // If we are connected, then we get the list of trees from the
         // inventory database
-        if (!connectError) {
+        
             try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from trees");
-
-                //Display the data in the textarea
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory(ProductType.TREES);
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting tree inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect check
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -749,70 +708,23 @@ public class OrderFrame extends javax.swing.JFrame {
         // getting the seed inventory. Once retieved, the seed inventory is
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
-
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
         try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of seeds from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from seeds");
-
-                //Display the data in the textarea
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory(ProductType.SEEDS);
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting seed inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect check
+        
+            
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -820,70 +732,22 @@ public class OrderFrame extends javax.swing.JFrame {
         // getting the shrub inventory. Once retieved, the shrub inventory is
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
-
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of shrubs from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from shrubs");
-
-                //Display the data in the textarea
+  
+         try {
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory("inventory", "Select * from shrubs");
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting shrubs inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect check
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -896,69 +760,24 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/leaftech";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of shrubs from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from genomics");
-
-                //Display the data in the textarea
+        
+         try {
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory("leaftech", "Select * from genomics");
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting genomics inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect checke:
+        
+        
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -967,69 +786,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // inventory is displayed in jTextArea1. From here the user can select 
         // an inventory item by triple clicking the item.
 
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/leaftech";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of shrubs from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from cultureboxes");
-
-                //Display the data in the textarea
+         try {
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory("leaftech", "Select * from cultureboxes");
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting culture boxes inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect checke:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -1038,69 +809,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/leaftech";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of shrubs from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from processing");
-
-                //Display the data in the textarea
+         try {
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory("leaftech", "Select * from processing");
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting processing inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect checke here:
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -1109,69 +832,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // inventory is displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-        Boolean connectError = false;       // Error flag
-        Connection DBConn = null;           // MySQL connection handle
-        String errString = null;            // String for displaying errors
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
-        Statement s = null;                 // SQL statement pointer
-
-        // Connect to the inventory database
-        try {
-            msgString = ">> Establishing Driver...";
-            jTextArea1.setText("\n" + msgString);
-
-            //load JDBC driver class for MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-
-            msgString = ">> Setting up URL...";
-            jTextArea1.append("\n" + msgString);
-
-            //define the data source
-            String SQLServerIP = databaseIP;
-            String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/leaftech";
-
-            msgString = ">> Establishing connection with: " + sourceURL + "...";
-            jTextArea1.append("\n" + msgString);
-
-            //create a connection to the db - note the default account is "remote"
-            //and the password is "remote_pass" - you will have to set this
-            //account up in your database
-            DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-
-        } catch (Exception e) {
-
-            errString = "\nProblem connecting to database:: " + e;
-            jTextArea1.append(errString);
-            connectError = true;
-
-        } // end try-catch
-
-        // If we are connected, then we get the list of shrubs from the
-        // inventory database
-        if (!connectError) {
-            try {
-                s = DBConn.createStatement();
-                res = s.executeQuery("Select * from referencematerials");
-
-                //Display the data in the textarea
+         try {
+                OrdersDAO orders = new OrdersDAO();
                 jTextArea1.setText("");
+                ArrayList<String> results = orders.getInventory("leaftech", "Select * from referencematerials");
+                
+                for(String result: results) {
+                    jTextArea1.append(result + "\n");
+                }
+                
+            } catch (ConnectionFailedException e) {
 
-                while (res.next()) {
-                    msgString = res.getString(1) + " : " + res.getString(2)
-                            + " : $" + res.getString(4) + " : " + res.getString(3)
-                            + " units in stock";
-                    jTextArea1.append(msgString + "\n");
-
-                } // while
-
-            } catch (Exception e) {
-
-                errString = "\nProblem getting referencematerials inventory:: " + e;
-                jTextArea1.append(errString);
+                
+                jTextArea1.append(e.getMessage());
 
             } // end try-catch
-        } // if connect check
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {

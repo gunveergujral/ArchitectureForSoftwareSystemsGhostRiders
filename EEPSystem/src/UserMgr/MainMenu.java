@@ -24,6 +24,14 @@ public class MainMenu extends javax.swing.JFrame {
     ArrayList<String> roles;
 
     public MainMenu(ArrayList<String> roles) {
+<<<<<<< Updated upstream
+=======
+        initComponents();
+        this.roles = roles;
+    }
+
+    public MainMenu(ArrayList<String> roles, String databaseIP) {
+>>>>>>> Stashed changes
         initComponents();
         this.roles = roles;
 
