@@ -5,15 +5,11 @@
  */
 package UserMgr;
 
+import JavaBeans.UserAccount;
+import Utilities.LogOut;
 import ShippingApp.ShipFrame;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -150,31 +146,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Connection DBConn = null;       // MySQL connection handle
+        
         Boolean connectError = false;   // Error flag
         String username = null;         // Customer's last name
         String password = null;        // String for displaying non-error messages
-        Statement s = null;             // SQL statement pointer
-        String SQLstatement = null;     // String for building SQL queries
-        Boolean executeError = false;   // Error flag
-        String errString = null;        // String for displaying errors
-        int executeUpdateVal;           // Return value from execute indicating effected rows
-        String msgString = null;            // String for displaying non-error messages
-        ResultSet res = null;               // SQL query result set pointer
+
 
         if ((jTextField2.getText().length() > 0) && (jTextField1.getText().length() > 0)) {
-            try {
-                //load JDBC driver class for MySQL
-                Class.forName("com.mysql.jdbc.Driver");
-
-                String sourceURL = "jdbc:mysql://localhost:3306/usermanagement";
-                DBConn = DriverManager.getConnection(sourceURL, "remote", "remote_pass");
-            } catch (ClassNotFoundException e) {
-                connectError = true;
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-                connectError = true;
-            }
+            
         } else {
             connectError = true;
         }
@@ -183,44 +162,30 @@ public class LoginFrame extends javax.swing.JFrame {
             username = jTextField1.getText();
             password = jTextField2.getText();
 
-            String userPassword = null;
-            ArrayList<String> roles = new ArrayList<String>();
+            ArrayList<String> roles = null;
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
             String dateTimeStamp = formatter.format(new Date());
+            UserDAO login = new UserDAO();
+            ActivityDAO activity = new ActivityDAO();
 
             try {
-                s = DBConn.createStatement();
-
-                res = s.executeQuery("Select * from user_account where username = '" + username + "'");
-                if (res.next()) {
-                    userId = res.getInt(1);
-                    userPassword = res.getString(3);
-                } else {
+                UserAccount u = login.getUser(username);
+                
+                if (u == null) {
                     JOptionPane.showMessageDialog(this, "The username is not existed");
                     throw new Exception();
                 }
 
-                if (!userPassword.equals(password)) {
+                if (!u.getPassword().equals(password)) {
                     //Password is incorrect.
                     JOptionPane.showMessageDialog(this, "The password is incorrect");
                     throw new Exception();
                 }
-
-                res = s.executeQuery("Select user_role_id from user_role_relation where user_id = " + userId);
-                while (res.next()) {
-                    roles.add(res.getString(1));
-                }
-
-                SQLstatement = ("INSERT INTO user_activities (user_id, login_time) VALUES ( " + userId + ", '"
-                        + dateTimeStamp + "' );");
-
-                executeUpdateVal = s.executeUpdate(SQLstatement);
-
-                res = s.executeQuery("SELECT LAST_INSERT_ID()");
-                if (res.next()) {
-                    activityId = res.getInt(1);
-                }
+                
+                userId = u.getUserID();
+                roles = u.getRoles();
+                activityId = activity.setLoginTime(userId, dateTimeStamp);
 
                 MainMenu mainMenu = new MainMenu(userId, roles, activityId, jTextField3.getText());
                 mainMenu.setVisible(true);
@@ -242,7 +207,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 this.dispose();
             } catch (Exception e) {
 
-                executeError = true;
+                e.printStackTrace();
 
             } // try
         }

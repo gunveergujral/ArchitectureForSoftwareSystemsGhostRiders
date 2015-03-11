@@ -5,6 +5,7 @@
  */
 package UserMgr;
 
+import Utilities.LogOut;
 import InventoryMgr.InventoryMainFrame;
 import OrderApp.OrderFrame;
 import ShippingApp.ShipFrame;
