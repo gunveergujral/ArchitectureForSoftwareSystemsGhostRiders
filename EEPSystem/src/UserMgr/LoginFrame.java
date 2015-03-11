@@ -143,70 +143,61 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
-        Boolean connectError = false;   // Error flag
+
         String username = null;         // Customer's last name
         String password = null;        // String for displaying non-error messages
 
+        username = jTextField1.getText();
+        password = jTextField2.getText();
+        UserSession.setDatabaseIP(jTextField3.getText());
 
-        if ((jTextField2.getText().length() > 0) && (jTextField1.getText().length() > 0)) {
-            
-        } else {
-            connectError = true;
-        }
+        ArrayList<String> roles = null;
 
-        if (!connectError) {
-            username = jTextField1.getText();
-            password = jTextField2.getText();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String dateTimeStamp = formatter.format(new Date());
+        UserDAO login = new UserDAO();
+        ActivityDAO activity = new ActivityDAO();
 
-            ArrayList<String> roles = null;
+        try {
+            UserAccount u = login.getUser(username);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            String dateTimeStamp = formatter.format(new Date());
-            UserDAO login = new UserDAO();
-            ActivityDAO activity = new ActivityDAO();
+            if (u == null) {
+                JOptionPane.showMessageDialog(this, "The username is not existed");
+                throw new Exception();
+            }
 
-            try {
-                UserAccount u = login.getUser(username);
-                
-                if (u == null) {
-                    JOptionPane.showMessageDialog(this, "The username is not existed");
-                    throw new Exception();
-                }
+            if (!u.getPassword().equals(password)) {
+                //Password is incorrect.
+                JOptionPane.showMessageDialog(this, "The password is incorrect");
+                throw new Exception();
+            }
 
-                if (!u.getPassword().equals(password)) {
-                    //Password is incorrect.
-                    JOptionPane.showMessageDialog(this, "The password is incorrect");
-                    throw new Exception();
-                }
-                
-                userId = u.getUserID();
-                roles = u.getRoles();
-                activityId = activity.setLoginTime(userId, dateTimeStamp);
+            userId = u.getUserID();
+            roles = u.getRoles();
+            activityId = activity.setLoginTime(userId, dateTimeStamp);
 
-                UserSession.setDatabaseIP(jTextField3.getText());
-                UserSession.setUserID(userId);
-                UserSession.setActivityID(activityId);
-                
-                MainMenu mainMenu = new MainMenu(roles);
-                mainMenu.setVisible(true);
-                mainMenu.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {                        
-                        if (jTextField1.getText() != null) {
-                            UserSession.updateUserActivities();
-                        }
-                        JOptionPane.showMessageDialog(mainMenu, "Log Out Successful,BYE !");
+            UserSession.setUserID(userId);
+            UserSession.setActivityID(activityId);
+
+            MainMenu mainMenu = new MainMenu(roles);
+            mainMenu.setVisible(true);
+            mainMenu.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    if (jTextField1.getText() != null) {
+                        UserSession.updateUserActivities();
                     }
-                });
+                    JOptionPane.showMessageDialog(mainMenu, "Log Out Successful,BYE !");
+                }
+            });
 
-                this.dispose();
-            } catch (Exception e) {
+            this.dispose();
+        } catch (Exception e) {
 
-                e.printStackTrace();
+            e.printStackTrace();
 
-            } // try
-        }
+        } // try
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

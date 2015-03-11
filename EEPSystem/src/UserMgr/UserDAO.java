@@ -6,12 +6,10 @@
 package UserMgr;
 
 import JavaBeans.UserAccount;
-import Utilities.ConnectionFailedException;
 import Utilities.DBConnector;
 import Utilities.UserSession;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -55,10 +53,8 @@ public class UserDAO {
             }
 
             
-        } catch (ConnectionFailedException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }

@@ -11,17 +11,23 @@ package Utilities;
  */
 public enum ProductType {
 
-    SEEDS("inventory"), SHRUBS("inventory"), TREES("inventory"),
-    CULTUREBOXES("leaftech"), GENOMICS("leaftech"), PROCESSING("leaftech"), REFERENCEMATIRIALS("leaftech");
+    SEEDS("inventory","seeds"), SHRUBS("inventory", "shrubs"), TREES("inventory", "trees"),
+    CULTUREBOXES("leaftech", "cultureboxes"), GENOMICS("leaftech", "genomics"), 
+    PROCESSING("leaftech", "processing"), REFERENCEMATIRIALS("leaftech", "referencematerials");
 
     private final String databaseName;
+    private final String tableName;
 
-    ProductType(String databaseName) {
+    ProductType(String databaseName, String tableName) {
         this.databaseName = databaseName;
+        this.tableName = tableName;
     }
 
     public String getDatabaseName() {
-        return databaseName;
+        return databaseName;        
     }
 
+    public String getTableName(){
+        return tableName;        
+    }
 }

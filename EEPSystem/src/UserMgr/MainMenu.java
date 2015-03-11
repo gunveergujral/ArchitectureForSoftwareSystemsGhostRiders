@@ -23,11 +23,7 @@ public class MainMenu extends javax.swing.JFrame {
      */
     ArrayList<String> roles;
 
-    public MainMenu() {
-        initComponents();
-    }
-
-    public MainMenu(ArrayList<String> roles, String databaseIP) {
+    public MainMenu(ArrayList<String> roles) {
         initComponents();
         this.roles = roles;
 
@@ -216,7 +212,7 @@ public class MainMenu extends javax.swing.JFrame {
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add("INV_MAN");
                 temp.add("SHI_EMP");
-                new MainMenu(temp, "localhost").setVisible(true);
+                new MainMenu(temp).setVisible(true);
             }
         });
     }

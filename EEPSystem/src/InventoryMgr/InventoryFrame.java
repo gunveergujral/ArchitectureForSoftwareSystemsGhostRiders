@@ -1,12 +1,9 @@
 package InventoryMgr;
 
-import ShippingApp.ShipFrame;
 import Utilities.UserSession;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -37,7 +34,7 @@ public class InventoryFrame extends javax.swing.JFrame {
     /**
      * Creates new form AddInventoryMainFrame
      */
-    public InventoryFrame(int userID, int activityID, String databaseIP) {
+    public InventoryFrame() {
         initComponents();
         jLabel1.setText("Inventory Management Application " + versionID);
     }
@@ -412,7 +409,7 @@ public class InventoryFrame extends javax.swing.JFrame {
                 jTextArea1.append("\n" + msgString);
 
                 //define the data source
-                String SQLServerIP = databaseIP;
+                String SQLServerIP = UserSession.getDatabaseIP();
                 //String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                 if (jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected()) {
                     String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
@@ -589,7 +586,7 @@ public class InventoryFrame extends javax.swing.JFrame {
                 jTextArea1.append("\n" + msgString);
 
                 //define the data source
-                String SQLServerIP = databaseIP;
+                String SQLServerIP = UserSession.getDatabaseIP();
                 //String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                 if (jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected()) {
                     String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
@@ -738,7 +735,7 @@ public class InventoryFrame extends javax.swing.JFrame {
                     Class.forName("com.mysql.jdbc.Driver");
 
                     //define the data source
-                    String SQLServerIP = databaseIP;
+                    String SQLServerIP = UserSession.getDatabaseIP();
                     // String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                     if (jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected()) {
                         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
@@ -888,7 +885,7 @@ public class InventoryFrame extends javax.swing.JFrame {
                     Class.forName("com.mysql.jdbc.Driver");
 
                     //define the data source
-                    String SQLServerIP = databaseIP;
+                    String SQLServerIP = UserSession.getDatabaseIP();
                     if (jRadioButton1.isSelected() || jRadioButton2.isSelected() || jRadioButton3.isSelected()) {
                         String sourceURL = "jdbc:mysql://" + SQLServerIP + ":3306/inventory";
                     //msgString = ">> Establishing connection with: " + sourceURL + "...";
@@ -1062,7 +1059,7 @@ public class InventoryFrame extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new InventoryFrame(2, 1, "localhost").setVisible(true);
+                new InventoryFrame().setVisible(true);
             }
         });
     }

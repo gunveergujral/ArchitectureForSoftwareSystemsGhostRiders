@@ -45,11 +45,9 @@ public class ActivityDAO {
                 activityId = res.getInt(1);
             }            
 
-        } catch (ConnectionFailedException ex) {            
+        } catch (Exception ex) {            
             Logger.getLogger(LoginFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         return activityId;
 
     }
