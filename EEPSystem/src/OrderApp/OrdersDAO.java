@@ -62,14 +62,13 @@ public class OrdersDAO {
         return result;
     }
 
-    public void submit(Orders orders, Order order) throws ConnectionFailedException {
+    public void submit(Orders orders) throws ConnectionFailedException {
         Boolean connectError = false;       // Error flag
         Connection DBConn = null;           // MySQL connection handle
         Statement s = null;                 // SQL statement pointer
         String SQLstatement = null;     // String for building SQL queries
         int executeUpdateVal;           // Return value from execute indicating effected rows
-        String orderTableName = null;   // This is the name of the table that lists the items
-        String dateTimeStamp = null;
+        
         
         try {
             DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(), "orderinfo");
@@ -78,60 +77,66 @@ public class OrdersDAO {
         }
         try {
         s = DBConn.createStatement();
-        Calendar rightNow = Calendar.getInstance();
-
-        int TheHour = rightNow.get(rightNow.HOUR_OF_DAY);
-        int TheMinute = rightNow.get(rightNow.MINUTE);
-        int TheSecond = rightNow.get(rightNow.SECOND);
-        int TheDay = rightNow.get(rightNow.DAY_OF_WEEK);
-        int TheMonth = rightNow.get(rightNow.MONTH);
-        int TheYear = rightNow.get(rightNow.YEAR);
-        orderTableName = "order" + String.valueOf(rightNow.getTimeInMillis());
-
-        dateTimeStamp = TheMonth + "/" + TheDay + "/" + TheYear + " "
-                + TheHour + ":" + TheMinute + ":" + TheSecond;
+       
 
         
-            SQLstatement = ("CREATE TABLE " + orderTableName
+            SQLstatement = ("CREATE TABLE " + orders.getOrderTable()
                     + "(item_id int unsigned not null auto_increment primary key, "
                     + "product_id varchar(20), description varchar(80), "
                     + "item_price float(7,2) );");
             executeUpdateVal = s.executeUpdate(SQLstatement);
         } catch (Exception e) {
-            throw new ConnectionFailedException("\nProblem creating order table " + orderTableName + ":: " + e);
+            throw new ConnectionFailedException("\nProblem creating order table " + orders.getOrderTable() + ":: " + e);
 
         } // try
         try {
             SQLstatement = ("INSERT INTO orders (order_date, " + "first_name, "
                     + "last_name, address, phone, total_cost, shipped, "
-                    + "ordertable) VALUES ( '" + dateTimeStamp + "', "
+                    + "ordertable) VALUES ( '" + orders.getOrderDate() + "', "
                     + "'" + orders.getFirstname() + "', " + "'" + orders.getLastname() + "', "
                     + "'" + orders.getAddress() + "', " + "'" + orders.getPhonenumber() + "', "
-                    + orders.getCost() + ", " + false + ", '" + orderTableName + "' );");
+                    + orders.getCost() + ", " + false + ", '" + orders.getOrderTable() + "' );");
 
             executeUpdateVal = s.executeUpdate(SQLstatement);
 
         } catch (Exception e1) {
 
             try {
-                SQLstatement = ("DROP TABLE " + orderTableName + ";");
+                SQLstatement = ("DROP TABLE " + orders.getOrderTable() + ";");
                 executeUpdateVal = s.executeUpdate(SQLstatement);
 
             } catch (Exception e2) {
                 throw new ConnectionFailedException("\nProblem deleting unused order table:: "
-                        + orderTableName + ":: " + e2);
+                        + orders.getOrderTable()+ ":: " + e2);
 
             } // try
             throw new ConnectionFailedException("\nProblem with inserting into table orders:: " + e1);
         } // try
+     
+    }
+    
+    public void addItems(Orders orders, Order order) throws ConnectionFailedException {
+        Boolean connectError = false;       // Error flag
+        Connection DBConn = null;           // MySQL connection handle
+        Statement s = null;                 // SQL statement pointer
+        String SQLstatement = null;     // String for building SQL queries
+        int executeUpdateVal;           // Return value from execute indicating effected rows   
+        
         try {
-            SQLstatement = ("INSERT INTO " + orderTableName
+            DBConn = DBConnector.getConnection(UserSession.getDatabaseIP(), "orderinfo");
+        } catch (Exception e) {
+            throw new ConnectionFailedException("\nProblem connecting to database");
+        }
+        try {
+            s = DBConn.createStatement();
+            
+            SQLstatement = ("INSERT INTO " + orders.getOrderTable()
                     + " (product_id, description, item_price) "
                     + "VALUES ( '" + order.getProductId() + "', " + "'"
                     + order.getDescription() + "', " + order.getItemPrice() + " );");
             executeUpdateVal = s.executeUpdate(SQLstatement);
         } catch (Exception e) {
-            throw new ConnectionFailedException("\nProblem with inserting into table " + orderTableName
+            throw new ConnectionFailedException("\nProblem with inserting into table " + orders.getOrderTable()
                     + ":: " + e);
         }
     }

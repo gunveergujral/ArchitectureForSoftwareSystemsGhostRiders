@@ -502,6 +502,9 @@ public class OrderFrame extends javax.swing.JFrame {
         String phoneNumber = null;      // Customer phone number
         Float perUnitCost;              // Cost per tree, seed, or shrub unit
         String productID = null;        // Product id of tree, seed, or shrub
+        String orderTableName = null;   // This is the name of the table that lists the items
+        String dateTimeStamp = null;
+        OrdersDAO ordersDAO = new OrdersDAO();
 
         // Check to make sure there is a first name, last name, address and phone
         if ((jTextField3.getText().length() > 0) && (jTextField4.getText().length() > 0)
@@ -518,7 +521,35 @@ public class OrderFrame extends javax.swing.JFrame {
             beginIndex = sTotalCost.indexOf("$", beginIndex) + 1;
             sTotalCost = sTotalCost.substring(beginIndex, sTotalCost.length());
             fCost = Float.parseFloat(sTotalCost);
+            
+             Calendar rightNow = Calendar.getInstance();
 
+            int TheHour = rightNow.get(rightNow.HOUR_OF_DAY);
+            int TheMinute = rightNow.get(rightNow.MINUTE);
+            int TheSecond = rightNow.get(rightNow.SECOND);
+            int TheDay = rightNow.get(rightNow.DAY_OF_WEEK);
+            int TheMonth = rightNow.get(rightNow.MONTH);
+            int TheYear = rightNow.get(rightNow.YEAR);
+            orderTableName = "order" + String.valueOf(rightNow.getTimeInMillis());
+
+            dateTimeStamp = TheMonth + "/" + TheDay + "/" + TheYear + " "
+                + TheHour + ":" + TheMinute + ":" + TheSecond;
+
+             Orders orders = new Orders();
+                    orders.setFirstname(firstName);
+                    orders.setLastname(lastName);
+                    orders.setPhonenumber(phoneNumber);
+                    orders.setAddress(customerAddress);
+                    orders.setCost(fCost);
+                    orders.setOrderTable(orderTableName);
+                    orders.setOrderDate(dateTimeStamp);
+            try{        
+               
+                ordersDAO.submit(orders);
+            } catch (ConnectionFailedException e) {
+                        jTextArea3.append(e.getMessage());
+            } // end try-catch
+            
             String[] items = jTextArea2.getText().split("\\n");
 
             for (int i = 0; i < items.length; i++) {
@@ -550,16 +581,12 @@ public class OrderFrame extends javax.swing.JFrame {
                     order.setDescription(description);
                     order.setItemPrice(perUnitCost);
 
-                    Orders orders = new Orders();
-                    orders.setFirstname(firstName);
-                    orders.setLastname(lastName);
-                    orders.setPhonenumber(phoneNumber);
-                    orders.setAddress(customerAddress);
-                    orders.setCost(fCost);
+                   
 
-                    OrdersDAO ordersDAO = new OrdersDAO();
+                    
                     try {
-                        ordersDAO.submit(orders, order);
+                        
+                        ordersDAO.addItems(orders, order);
 
                         msgString = "\nORDER SUBMITTED FOR: " + firstName + " " + lastName;
                         jTextArea3.setText(msgString);
