@@ -92,7 +92,7 @@ public class OrdersDAO {
                 + TheHour + ":" + TheMinute + ":" + TheSecond;
 
         
-            SQLstatement = ("CREATE TABLE " + "order" + orderTableName
+            SQLstatement = ("CREATE TABLE " + orderTableName
                     + "(item_id int unsigned not null auto_increment primary key, "
                     + "product_id varchar(20), description varchar(80), "
                     + "item_price float(7,2) );");

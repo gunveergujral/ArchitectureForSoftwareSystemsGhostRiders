@@ -367,15 +367,17 @@ public class ShipFrame extends javax.swing.JFrame {
                 // contains the list of order items.
                 
                 // name of table with list of items
-                jTextField2.setText(results.get(1)); // first name
-                jTextField3.setText(results.get(2)); // last name
-                jTextField4.setText(results.get(3)); // phone
-                jTextField5.setText(results.get(4)); // order date
-                jTextArea2.setText(results.get(5));  // address
+                jTextField2.setText(results.get(0)); // first name
+                jTextField3.setText(results.get(1)); // last name
+                jTextField4.setText(results.get(2)); // phone
+                jTextField5.setText(results.get(3)); // order date
+                jTextArea2.setText(results.get(4));  // address
 
                 // list the items on the form that comprise the order
                 jTextArea3.setText("");
-                jTextArea3.append(results.get(6) + "\n");
+                for(int i = 5; i < results.size(); i++){
+                    jTextArea3.append(results.get(i) + "\n");
+                }
 
                 // This global variable is used to update the record as shipped
                 updateOrderID = Integer.parseInt(orderID);
