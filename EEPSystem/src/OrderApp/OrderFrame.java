@@ -1,6 +1,5 @@
 package OrderApp;
 
-
 import JavaBeans.Order;
 import JavaBeans.Orders;
 import JavaBeans.Product;
@@ -378,23 +377,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // Database parameters
         // If we are connected, then we get the list of trees from the
         // inventory database
-        
-            try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.TREES);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.TREES);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
-        
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -498,37 +495,36 @@ public class OrderFrame extends javax.swing.JFrame {
         String errString = null;        // String for displaying errors
         String lastName = null;         // Customer's last name
         String msgString = null;        // String for displaying non-error messages
-        
+
         String sTotalCost = null;       // String representing total order cost
         String sPerUnitCost = null;     // String representation of per unit cost
         String orderItem = null;        // Order line item from jTextArea2
         String phoneNumber = null;      // Customer phone number
         Float perUnitCost;              // Cost per tree, seed, or shrub unit
         String productID = null;        // Product id of tree, seed, or shrub
-  
 
         // Check to make sure there is a first name, last name, address and phone
         if ((jTextField3.getText().length() > 0) && (jTextField4.getText().length() > 0)
                 && (jTextField5.getText().length() > 0)
                 && (jTextArea4.getText().length() > 0)) {
-            
-                // Get the order data
-                firstName = jTextField3.getText();
-                lastName = jTextField4.getText();
-                phoneNumber = jTextField5.getText();
-                customerAddress = jTextArea4.getText();
-                sTotalCost = jTextField6.getText();
-                beginIndex = 0;
-                beginIndex = sTotalCost.indexOf("$", beginIndex) + 1;
-                sTotalCost = sTotalCost.substring(beginIndex, sTotalCost.length());
-                fCost = Float.parseFloat(sTotalCost);
-            
-                String[] items = jTextArea2.getText().split("\\n");
 
-                for (int i = 0; i < items.length; i++) {
-                    orderItem = items[i];
-                    jTextArea3.append("\nitem #:" + i + ": " + items[i]);
-                
+            // Get the order data
+            firstName = jTextField3.getText();
+            lastName = jTextField4.getText();
+            phoneNumber = jTextField5.getText();
+            customerAddress = jTextArea4.getText();
+            sTotalCost = jTextField6.getText();
+            beginIndex = 0;
+            beginIndex = sTotalCost.indexOf("$", beginIndex) + 1;
+            sTotalCost = sTotalCost.substring(beginIndex, sTotalCost.length());
+            fCost = Float.parseFloat(sTotalCost);
+
+            String[] items = jTextArea2.getText().split("\\n");
+
+            for (int i = 0; i < items.length; i++) {
+                orderItem = items[i];
+                jTextArea3.append("\nitem #:" + i + ": " + items[i]);
+
                 // Check just to make sure that a blank line was not stuck in
                 // there... just in case.
                 if (orderItem.length() > 0) {
@@ -550,22 +546,21 @@ public class OrderFrame extends javax.swing.JFrame {
                     perUnitCost = Float.parseFloat(sPerUnitCost);
 
                     Order order = new Order();
-                        order.setProductId(productID);
-                        order.setDescription(description);
-                        order.setItemPrice(perUnitCost);
-          
+                    order.setProductId(productID);
+                    order.setDescription(description);
+                    order.setItemPrice(perUnitCost);
+
                     Orders orders = new Orders();
-                        orders.setFirstname(firstName);
-                        orders.setLastname(lastName);
-                        orders.setPhonenumber(phoneNumber);
-                        orders.setAddress(customerAddress);
-                        orders.setCost(fCost);
-                     
-                        OrdersDAO ordersDAO = new OrdersDAO();
+                    orders.setFirstname(firstName);
+                    orders.setLastname(lastName);
+                    orders.setPhonenumber(phoneNumber);
+                    orders.setAddress(customerAddress);
+                    orders.setCost(fCost);
+
+                    OrdersDAO ordersDAO = new OrdersDAO();
                     try {
-                            ordersDAO.submit(orders, order);
-                         
-                
+                        ordersDAO.submit(orders, order);
+
                         msgString = "\nORDER SUBMITTED FOR: " + firstName + " " + lastName;
                         jTextArea3.setText(msgString);
 
@@ -577,20 +572,20 @@ public class OrderFrame extends javax.swing.JFrame {
                         jTextField4.setText("");
                         jTextField5.setText("");
                         jTextField6.setText("$0");
-                        } catch (ConnectionFailedException e) {
-                            jTextArea3.append(e.getMessage());
-                        } // end try-catch
-                      }
-                    }
-                       
-                    } else {
-                    
-                    errString = "\nMissing customer information!!!\n";
-                    jTextArea3.append(errString);
-                    connectError = true;
+                    } catch (ConnectionFailedException e) {
+                        jTextArea3.append(e.getMessage());
+                    } // end try-catch
+                }
+            }
 
-                    }// customer data check
-  
+        } else {
+
+            errString = "\nMissing customer information!!!\n";
+            jTextArea3.append(errString);
+            connectError = true;
+
+        }// customer data check
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -603,22 +598,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.SEEDS);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.SEEDS);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
-        
-            
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -626,22 +620,21 @@ public class OrderFrame extends javax.swing.JFrame {
         // getting the shrub inventory. Once retieved, the shrub inventory is
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
-  
-         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.SHRUBS);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
 
-                
-                jTextArea1.append(e.getMessage());
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.SHRUBS);
 
-            } // end try-catch
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
+
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -654,24 +647,22 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-        
-         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.GENOMICS);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.GENOMICS);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
-        
-        
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
+
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -680,21 +671,20 @@ public class OrderFrame extends javax.swing.JFrame {
         // inventory is displayed in jTextArea1. From here the user can select 
         // an inventory item by triple clicking the item.
 
-         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.CULTUREBOXES);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.CULTUREBOXES);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -703,21 +693,20 @@ public class OrderFrame extends javax.swing.JFrame {
         // displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.PROCESSING);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.PROCESSING);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -726,21 +715,20 @@ public class OrderFrame extends javax.swing.JFrame {
         // inventory is displayed in jTextArea1. From here the user can select an inventory
         // item by triple clicking the item.
 
-         try {
-                OrdersDAO orders = new OrdersDAO();
-                jTextArea1.setText("");
-                ArrayList<String> results = orders.getInventory(ProductType.REFERENCEMATERIALS);
-                
-                for(String result: results) {
-                    jTextArea1.append(result + "\n");
-                }
-                
-            } catch (ConnectionFailedException e) {
+        try {
+            OrdersDAO orders = new OrdersDAO();
+            jTextArea1.setText("");
+            ArrayList<String> results = orders.getInventory(ProductType.REFERENCEMATERIALS);
 
-                
-                jTextArea1.append(e.getMessage());
+            for (String result : results) {
+                jTextArea1.append(result + "\n");
+            }
 
-            } // end try-catch
+        } catch (ConnectionFailedException e) {
+
+            jTextArea1.append(e.getMessage());
+
+        } // end try-catch
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
