@@ -98,7 +98,12 @@ public class InventoryDAO {
         
         try {
             s = DBConn.createStatement();
-            SQLstatement = ("DELETE FROM " + type.getTableName() + " WHERE product_code = '" + productID + "';");
+            if (type.getDatabaseName().equals("inventory")) {
+                SQLstatement = ("DELETE FROM " + type.getTableName() + " WHERE product_code = '" + productID + "';");
+            } else {
+                SQLstatement = ("DELETE FROM " + type.getTableName() + " WHERE productid = '" + productID + "';");
+            }
+            
 
             executeUpdateVal = s.executeUpdate(SQLstatement);
         } catch (Exception e) {
