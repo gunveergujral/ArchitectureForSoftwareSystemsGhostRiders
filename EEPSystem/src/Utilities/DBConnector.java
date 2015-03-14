@@ -5,7 +5,7 @@
  */
 package Utilities;
 
-import UserMgr.LoginFrame;
+import UserInterface.LoginFrame;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
